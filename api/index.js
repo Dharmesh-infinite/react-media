@@ -9,6 +9,11 @@ const authRoute=require("./routes/auth")
 const postRoute=require("./routes/posts")
 const multer =require("multer")
 const path=require("path")
+const fs=require("fs")
+// const bodyParser=require("body-parser")
+
+// app.use(bodyParser.urlencoded({extended:true}));
+// app.use(bodyParser.json());
 
 dotenv.config();
 
@@ -20,6 +25,7 @@ app.use("/images",express.static(path.join(__dirname,"public/images")));
 
 //middleware
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use(helmet());
 app.use(morgan("common"));
 
@@ -28,13 +34,20 @@ const storage=multer.diskStorage({
         cb(null,"public/images");
     },
     filename:(req,file,cb)=>{
-        cb(null,req.body.name);
+        // const fileName=file.originalname;
+        console.log(req.body);
+        cb(null,file.originalname);
     }
 })
 
-const upload =multer({storage});
+const upload =multer({storage:storage});
 app.post("/api/upload",upload.single("file"),(req,res)=>{
     try{
+        fs.rename(`public/images/${req.file.filename}`,`public/images/${req.body.name}`,(err) => {
+            if (err) throw err;
+            console.log('Rename complete!');
+          })
+         console.log(req.body);
         return res.status(200).json("file uploaded successfully");
     }catch(err){
         console.log(err);

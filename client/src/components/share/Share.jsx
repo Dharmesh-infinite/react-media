@@ -22,7 +22,7 @@ export default function Share() {
             const fileName=Date.now()+file.name;
             data.append("file",file);
             data.append("name",fileName);
-            console.log(data);
+            console.log(...data);
             newPost.img=fileName;
             try{
                 await axios.post("/upload",data);
