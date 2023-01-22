@@ -33,6 +33,10 @@ const UserSchema=new mongoose.Schema({
         type:String,
         default:"",
     },
+    country:{
+        type:String,
+        default:"empty",
+    },
     city:{
         type:String,
         default:"",

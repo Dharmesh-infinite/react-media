@@ -35,7 +35,7 @@ const storage=multer.diskStorage({
     },
     filename:(req,file,cb)=>{
         // const fileName=file.originalname;
-        console.log(req.body);
+        // console.log(req.body);
         cb(null,file.originalname);
     }
 })
@@ -45,9 +45,9 @@ app.post("/api/upload",upload.single("file"),(req,res)=>{
     try{
         fs.rename(`public/images/${req.file.filename}`,`public/images/${req.body.name}`,(err) => {
             if (err) throw err;
-            console.log('Rename complete!');
+            // console.log('Rename complete!');
           })
-         console.log(req.body);
+        //  console.log(req.body);
         return res.status(200).json("file uploaded successfully");
     }catch(err){
         console.log(err);
