@@ -21,7 +21,7 @@ export function TransferForm({popUp,toAccount}) {
 
     try {
       const tx = await web3.eth.sendTransaction({ from: fromAddress, to: toAccount, value: value });
-      console.log(tx);
+      console.log(tx.transactionHash);
     } catch (error) {
       alert(error);
     }
