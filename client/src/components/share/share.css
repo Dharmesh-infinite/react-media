@@ -80,7 +80,16 @@
     cursor: pointer;
     color: white;
 }
-
+.checkButton{
+    border: none;
+    padding: 7px;
+    border-radius: 5px;
+    background-color: rgb(56, 169, 79);
+    font-weight: 500;
+    margin-right: 20px;
+    cursor: pointer;
+    color: white;
+}
 .shareImgContainer{
     padding: 0 20px 10px 20px;
     position: relative;

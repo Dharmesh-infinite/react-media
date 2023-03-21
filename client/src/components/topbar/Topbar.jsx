@@ -45,6 +45,9 @@ export default function Topbar() {
         <Link to={`profile/${user.user.username} `}>
         <img src={user.profilePicture?PF+user.profilePicture:PF+"persons/noavatar.png"}alt="" className="topbarImg" />
         </Link>
+        <Link to={`profile/${user==null} `}>
+        <img src={user.profilePicture?PF+user.profilePicture:PF+"persons/noavatar.png"}alt="" className="topbarImg" />
+        </Link>
       </div>
     </div>
   )
