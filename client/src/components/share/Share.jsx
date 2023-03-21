@@ -1,16 +1,46 @@
 import "./share.css"
-import { PermMedia,Label,Room,EmojiEmotions, Cancel } from "@mui/icons-material"
+import { PermMedia,Label,Room,EmojiEmotions, Cancel, Feed } from "@mui/icons-material"
 import { useContext } from "react"
 import {AuthContext} from "../../context/AuthContext";
 import { useRef } from "react";
 import { useState } from "react";
 import axios from "axios";
+
 export default function Share() {
     const {user}=useContext(AuthContext);
     const PF=process.env.REACT_APP_PUBLIC_FOLDER;
     const desc=useRef();
     const [file,setFile]=useState(null);
+    //---------------------------------------------
+const [text,setText] = useState("");
+const [output,setOutput] = useState("");
+ 
+const checkHandler=()=>{
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    var raw = JSON.stringify([
+      {
+        "text": text
+      }
+    ]);
+    setOutput("This tweek is ".concat(output["text"]))
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
 
+    fetch("http://127.0.0.1:9000/predict", requestOptions)
+      .then(response => response.text())
+      .then(result => setOutput(JSON.parse(result)))
+      .catch(error => console.log('error', error));
+      
+}
+
+
+    //----------------------------------------
     const submitHandler=async(e)=>{
         e.preventDefault();
         const newPost={
@@ -32,18 +62,18 @@ export default function Share() {
         }
         try{
             await axios.post("/posts",newPost);
-            window.location.reload();
+            // Feed.location.reload();
         }catch(err){
             console.log(err);
         }
-    }
-
+    }   
   return (
+   <>
     <div className="share">
         <div className="shareWrapper">
             <div className="shareTop">
                 <img className="shareProfileImg" src={user.profilePicture?PF+user.profilePicture:PF+"/persons/noavatar.png"} alt="" />
-                <input placeholder={"What is in your mind "+user.username+"?"} className="shareInput"  ref={desc}/>
+                <input onChange={(e)=>setText(e.target.value)}  placeholder={"What is in your mind "+user.username+"?"} id="text" className="shareInput"  ref={desc} />
             </div>
             <hr className="shareHr" />
             {file&&(
@@ -72,9 +102,15 @@ export default function Share() {
                         <span className="shareOptionText">Feelings</span>
                     </div>
                 </div>
-                <button className="shareButton" type="submit">Share</button>
+                
+                <button  className="checkButton" type="button" onClick={checkHandler} >Check</button>
+                <button  className="shareButton" type="submit">Share</button>
+                <p>{output["text"]}</p>
+           
             </form>
         </div>
     </div>
+    <p></p>
+    </>
   )
 }
