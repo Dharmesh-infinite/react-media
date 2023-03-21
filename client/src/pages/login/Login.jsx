@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { CircularProgress } from "@mui/material";
 import {Register} from "../register/Register"
 import { Link } from "react-router-dom";
+
 export default function Login() {
     const email=useRef();
     const password=useRef();
@@ -42,6 +43,8 @@ export default function Login() {
                     <button className="loginRegisterButton">{isFetching?(<CircularProgress color="inherit"/>):( "Create a new account")}</button>
                     </Link>
                     </form>
+
+
             </div>
         </div>
     </div>
